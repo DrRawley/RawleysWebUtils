@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== "production") { //For reading development .env keys
     require('dotenv').config();
 }
+console.log(process.env.PORT);
 //Express stuff
 const express = require('express');
 const app = express();
