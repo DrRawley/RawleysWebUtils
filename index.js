@@ -20,7 +20,7 @@ app.post('/contactform', async (req, res) => {
 
     const messageId = await sendMail(message);
 
-    //res.send(`Sent: ${messageId}`);
+    res.redirect('https://drrawley.com');
 
 });
 
@@ -29,13 +29,12 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+        // `user` and `pass` values from brevo.com
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
     },
 });
 
-// async..await is not allowed in global scope, must use a wrapper
 async function sendMail(contactMessage) {
     // send mail with defined transport object
     const info = await transporter.sendMail({
@@ -46,6 +45,5 @@ async function sendMail(contactMessage) {
         //html: "<b>Hello world?</b>", // html body
     });
 
-    console.log("Message sent: %s", info.messageId);
     return (info.messageId);
 }
