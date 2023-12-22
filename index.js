@@ -13,6 +13,10 @@ app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}...`);
 });
 
+app.get('/', (req, res) => {
+    res.send('You\'ve reached this page!<br>Things are more interesting at <a href="https://drrawley.com">drrawley.com</a>');
+})
+
 app.post('/contactform', async (req, res) => {
     const { contact } = req.body;
     const message = `You've got a new contact!\nName: ${contact.name}\nemail: ${contact.email}\nphone: ${contact.phone}\nMessage: ${contact.message}`;
