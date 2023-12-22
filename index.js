@@ -13,11 +13,14 @@ app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}...`);
 });
 
-app.get('/mailform', async (req, res) => {
+app.post('/contactform', async (req, res) => {
+    const { contact } = req.body;
+    const message = `You've got a new contact!\nName: ${contact.name}\nemail: ${contact.email}\nphone: ${contact.phone}\nMessage: ${contact.message}`;
+    console.log(message);
 
-    const messageId = await sendMail();
+    const messageId = await sendMail(message);
 
-    res.send(`Sent: ${messageId}`);
+    //res.send(`Sent: ${messageId}`);
 
 });
 
@@ -33,14 +36,14 @@ const transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
-async function sendMail() {
+async function sendMail(contactMessage) {
     // send mail with defined transport object
     const info = await transporter.sendMail({
-        from: '"Nodemailer Test" <no-reply@drrawley.com>', // sender address
+        from: '"DrRawley Contact Form" <no-reply@drrawley.com>', // sender address
         to: "rawley.greene@gmail.com", // list of receivers
-        subject: "Hello 3", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
+        subject: "New Contact", // Subject line
+        text: contactMessage, // plain text body
+        //html: "<b>Hello world?</b>", // html body
     });
 
     console.log("Message sent: %s", info.messageId);
